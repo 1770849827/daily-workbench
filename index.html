@@ -1553,7 +1553,7 @@ const HomeModule = {
                  onclick="App.loadModule('${module}')"
                  onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='var(--shadow-md)';"
                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-sm)';">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${stickerImg}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${stickerImg}</div>
                 <div style="font-size:28px; margin-bottom:4px;">${icon}</div>
                 <div style="font-size:22px; font-weight:700; color:var(--primary);">${value}</div>
                 <div style="font-size:12px; color:var(--text-light); margin-top:2px;">${label}</div>
@@ -1574,7 +1574,7 @@ const HomeModule = {
                      onclick="App.loadModule('fitness')"
                      onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='var(--shadow-md)';"
                      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-sm)';">
-                    <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${stickerImg}</div>
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${stickerImg}</div>
                     <div style="font-size:24px; margin-bottom:4px;">🔥</div>
                     <div style="font-size:18px; font-weight:700; color:#E65100;">${calories} kcal</div>
                     <div style="font-size:11px; color:#BF360C; margin-top:3px; line-height:1.3;">≈ ${foodInfo.emoji}${foodInfo.text}</div>
@@ -1586,7 +1586,7 @@ const HomeModule = {
                  onclick="App.loadModule('fitness')"
                  onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='var(--shadow-md)';"
                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-sm)';">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${stickerImg}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${stickerImg}</div>
                 <div style="font-size:24px; margin-bottom:4px;">💪</div>
                 <div style="font-size:16px; font-weight:700; color:var(--text-light);">去运动</div>
                 <div style="font-size:11px; color:var(--text-light); margin-top:2px;">打卡查看消耗</div>
@@ -1786,18 +1786,18 @@ const TodoModule = {
             </div>
 
             <div class="stat-grid">
-                <div class="stat-card" style="${App.cardBorderStyle(todayTotal > 0)} position:relative;">
-                    ${App.renderSticker('rabbit')}
+                <div class="stat-card" style="${App.cardBorderStyle(todayTotal > 0)} position:relative; overflow:visible;">
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('rabbit')}</div>
                     <div class="stat-value">${todayTotal}</div>
                     <div class="stat-label">今日计划</div>
                 </div>
-                <div class="stat-card" style="${App.cardBorderStyle(todayCompleted > 0)} position:relative;">
-                    ${App.renderSticker('rabbit')}
+                <div class="stat-card" style="${App.cardBorderStyle(todayCompleted > 0)} position:relative; overflow:visible;">
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('rabbit')}</div>
                     <div class="stat-value" style="color:var(--success);">${todayCompleted}</div>
                     <div class="stat-label">已完成</div>
                 </div>
-                <div class="stat-card" style="${App.cardBorderStyle(todayTotal > 0)} position:relative;">
-                    ${App.renderSticker('rabbit')}
+                <div class="stat-card" style="${App.cardBorderStyle(todayTotal > 0)} position:relative; overflow:visible;">
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('rabbit')}</div>
                     <div class="stat-value" style="color:var(--primary);">${todayRate}%</div>
                     <div class="stat-label">完成率</div>
                 </div>
@@ -2396,7 +2396,7 @@ const EnglishModule = {
             <h3 style="margin: 20px 0 10px; font-size: 15px; color: var(--text-secondary);">今日打卡</h3>
             <div class="card-grid card-grid-3" style="margin-bottom:8px;">
                 <div class="card" style="text-align:center; cursor:pointer; position:relative; ${App.cardBorderStyle((todayRecord && todayRecord.words) > 0)}" onclick="EnglishModule.addWords()">
-                    <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('cat')}</div>
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('cat')}</div>
                     <div style="font-size:32px; margin-bottom:8px;">📖</div>
                     <div style="font-weight:600;">单词打卡</div>
                     <div style="font-size:12px; color:var(--text-light); margin-top:4px;">
@@ -2404,7 +2404,7 @@ const EnglishModule = {
                     </div>
                 </div>
                 <div class="card" style="text-align:center; cursor:pointer; position:relative; ${App.cardBorderStyle((todayRecord && todayRecord.speakingDuration) > 0)}" onclick="EnglishModule.addSpeaking()">
-                    <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('cat')}</div>
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('cat')}</div>
                     <div style="font-size:32px; margin-bottom:8px;">🎤</div>
                     <div style="font-weight:600;">口语跟读</div>
                     <div style="font-size:12px; color:var(--text-light); margin-top:4px;">
@@ -2412,7 +2412,7 @@ const EnglishModule = {
                     </div>
                 </div>
                 <div class="card" style="text-align:center; cursor:pointer; position:relative;" onclick="EnglishModule.showDailyConversation()">
-                    <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('cat')}</div>
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('cat')}</div>
                     <div style="font-size:32px; margin-bottom:8px;">💬</div>
                     <div style="font-weight:600;">日常对话</div>
                     <div style="font-size:12px; color:var(--text-light); margin-top:4px;">
@@ -2422,7 +2422,7 @@ const EnglishModule = {
             </div>
             <div class="card-grid card-grid-2">
                 <div class="card" style="text-align:center; cursor:pointer; position:relative; ${App.cardBorderStyle(gameBest > 0)}" onclick="EnglishModule.startGame()">
-                    <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('cat')}</div>
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('cat')}</div>
                     <div style="font-size:32px; margin-bottom:8px;">🎮</div>
                     <div style="font-weight:600;">单词游戏</div>
                     <div style="font-size:12px; color:var(--text-light); margin-top:4px;">
@@ -2430,7 +2430,7 @@ const EnglishModule = {
                     </div>
                 </div>
                 <div class="card" style="text-align:center; cursor:pointer; position:relative; ${App.cardBorderStyle(translationBest > 0)}" onclick="EnglishModule.startTranslation()">
-                    <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('cat')}</div>
+                    <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('cat')}</div>
                     <div style="font-size:32px; margin-bottom:8px;">🔄</div>
                     <div style="font-weight:600;">中英互译</div>
                     <div style="font-size:12px; color:var(--text-light); margin-top:4px;">
@@ -3702,7 +3702,7 @@ const CalligraphyModule = {
             <!-- 每日好字区 -->
             <h3 style="margin: 16px 0 10px; font-size: 15px; color: var(--text-secondary);">今日好字</h3>
             <div class="card" style="text-align:center; ${App.cardBorderStyle(todayRecord && todayRecord.bestImageId)} position:relative;">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('cat')}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('cat')}</div>
         `;
 
         if (todayRecord && todayRecord.bestImageId) {
@@ -4145,7 +4145,7 @@ const FitnessModule = {
         html += `
             <h3 style="margin: 20px 0 10px; font-size: 15px; color: var(--text-secondary);">身体数据</h3>
             <div class="card" style="position:relative; ${App.cardBorderStyle(!!latestBody)}">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('dog')}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('dog')}</div>
         `;
 
         if (latestBody) {
@@ -4759,7 +4759,7 @@ const MealModule = {
 
             <!-- 喝水记录 -->
             <div class="card" style="margin-bottom:16px; ${App.cardBorderStyle(todayWater > 0)} position:relative;">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('duck')}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('duck')}</div>
                 <h3 style="font-size:15px; margin-bottom:12px;">💧 喝水记录</h3>
                 <div style="text-align:center; margin-bottom:12px;">
                     <div style="font-size:32px; font-weight:700; color:var(--info);">${todayWater}ml</div>
@@ -4786,7 +4786,7 @@ const MealModule = {
 
             <!-- 每日热量摄入 -->
             <div class="card" style="margin-top:16px; ${App.cardBorderStyle(todayCalories > 0)} position:relative;">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('carrot')}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('carrot')}</div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
                     <span style="font-size:14px; font-weight:600;">🔥 今日热量摄入</span>
                     <span style="font-size:14px;">${todayCalories} / ${calorieGoal} kcal</span>
@@ -4873,7 +4873,7 @@ const MealModule = {
         return `
             <div class="card" style="text-align:center; cursor:pointer; position:relative; ${App.cardBorderStyle(hasRecord)}"
                  onclick="MealModule.quickRecord('${mealType}')">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker(stickerMap[mealType] || 'carrot')}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker(stickerMap[mealType] || 'carrot')}</div>
                 <div style="font-size:32px; margin-bottom:8px;">${hasRecord ? '✅' : label.split(' ')[0]}</div>
                 <div style="font-weight:600;">${label.split(' ')[1]}</div>
                 <div style="font-size:13px; margin-top:4px; color:${hasRecord ? 'var(--success)' : 'var(--text-light)'};">
@@ -5135,7 +5135,7 @@ const SavingsModule = {
 
             <!-- 月度储蓄目标 -->
             <div class="card" style="margin-bottom:16px; ${App.cardBorderStyle(monthSaved > 0)} position:relative;">
-                <div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">${App.renderSticker('rabbit')}</div>
+                <div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">${App.renderSticker('rabbit')}</div>
                 <h3 style="font-size:15px; margin-bottom:12px;">📅 月度储蓄目标</h3>
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
                     <span style="font-size:14px;">本月已存</span>
@@ -6863,7 +6863,7 @@ const ReportCommon = {
         };
         var stickerName = stickerMap[title] || 'duck';
         var borderStyle = App.cardBorderStyle(hasData);
-        var stickerHtml = '<div style="position:absolute; top:4px; right:6px; opacity:0.9; transform:rotate(-8deg);">' + App.renderSticker(stickerName) + '</div>';
+        var stickerHtml = '<div style="position:absolute; top:-6px; left:-4px; opacity:1; transform:rotate(10deg); z-index:2;">' + App.renderSticker(stickerName) + '</div>';
 
         var rows = items.map(function (it) {
             var color = it.color || 'var(--text)';

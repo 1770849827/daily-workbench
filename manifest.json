@@ -1,0 +1,26 @@
+{
+    "name": "从不入梦来",
+    "short_name": "从不入梦来",
+    "description": "个人生活管理工作台 - 待办、健身、饮食、记账、练字、英语日常对话、足迹",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#FFF8E1",
+    "theme_color": "#FF8A65",
+    "lang": "zh-CN",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

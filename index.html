@@ -7259,7 +7259,21 @@ const App = {
     async registerSW() {
         if ('serviceWorker' in navigator) {
             try {
-                await navigator.serviceWorker.register('service-worker.js');
+                const reg = await navigator.serviceWorker.register('service-worker.js');
+                // 检测 SW 更新：新版本安装完成后提示用户刷新
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // 有新版本且当前有活跃的 SW → 提示用户
+                                this.showToast('🎉 发现新版本，点击刷新更新', 'success');
+                                // 3秒后自动刷新
+                                setTimeout(() => location.reload(), 3000);
+                            }
+                        });
+                    }
+                });
             } catch (e) {
                 console.warn('SW registration failed:', e);
             }

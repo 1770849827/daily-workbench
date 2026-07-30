@@ -1,8 +1,9 @@
 /**
  * Service Worker - 离线缓存
+ * 版本号变更会自动清除旧缓存，确保用户拿到最新版
  */
 
-const CACHE_NAME = 'daily-workbench-v1';
+const CACHE_NAME = 'daily-workbench-v2';
 const ASSETS = [
     './',
     './index.html',
@@ -20,7 +21,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// 激活 - 清理旧缓存
+// 激活 - 清理旧缓存（版本号变了就全清）
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
@@ -33,28 +34,23 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// 拦截请求
+// 拦截请求 - 网络优先，离线降级到缓存
 self.addEventListener('fetch', (event) => {
-    // 仅处理 GET 请求
     if (event.request.method !== 'GET') return;
 
     event.respondWith(
-        caches.match(event.request).then(cachedResponse => {
-            // 有缓存就返回缓存，同时后台更新
-            const fetchPromise = fetch(event.request)
-                .then(response => {
-                    // 只缓存同源请求
-                    if (response && response.status === 200 && event.request.url.startsWith(self.location.origin)) {
-                        const responseClone = response.clone();
-                        caches.open(CACHE_NAME).then(cache => {
-                            cache.put(event.request, responseClone);
-                        });
-                    }
-                    return response;
-                })
-                .catch(() => cachedResponse);
-
-            return cachedResponse || fetchPromise;
-        })
+        fetch(event.request)
+            .then(response => {
+                // 网络成功：缓存副本 + 返回最新
+                if (response && response.status === 200 && event.request.url.startsWith(self.location.origin)) {
+                    const clone = response.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                }
+                return response;
+            })
+            .catch(() => {
+                // 网络失败：返回缓存
+                return caches.match(event.request);
+            })
     );
 });

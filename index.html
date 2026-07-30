@@ -7,8 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="生活工作台">
-    <title>从不入梦来</title>
-    <link rel="manifest" href="manifest.json">
+    <title>生活工作台</title>
     <style>
 /* ===== 全局重置 ===== */
 * {
@@ -1456,6 +1455,7 @@ const HomeModule = {
         const exerciseMin = this.getTodayExercise();
         const exerciseCalories = this.getTodayExerciseCalories();
         const foodInfo = this.getFoodEquivalent(exerciseCalories);
+        const swimCount = this.getTotalSwimCount();
 
         let html = `
             <div style="text-align:center; margin-bottom:24px;">
@@ -1472,6 +1472,7 @@ const HomeModule = {
                 ${this.renderStatBox('🗒', todoStats.completed + '/' + todoStats.total, '今日待办', 'todo')}
                 ${this.renderExerciseFoodBox(exerciseCalories, foodInfo)}
                 ${this.renderStatBox('🏊', exerciseMin + 'min', '今日运动', 'fitness')}
+                ${this.renderStatBox('🌊', swimCount + '次', '累计游泳', 'fitness')}
             </div>
 
             <div class="card" style="text-align:center;">
@@ -1621,6 +1622,15 @@ const HomeModule = {
         return records
             .filter(r => r.date === today)
             .reduce((sum, r) => sum + (parseInt(r.calories) || 0), 0);
+    },
+
+    /**
+     * 累计游泳次数 - 统计所有 type==='swim' 的健身记录
+     * （每条游泳打卡都已存为一条 swim 记录，无需改数据格式）
+     */
+    getTotalSwimCount() {
+        const records = Storage.get('fitness_records', []);
+        return records.filter(r => r.type === 'swim').length;
     },
 
     /**

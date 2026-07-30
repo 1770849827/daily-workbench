@@ -1509,10 +1509,10 @@ const HomeModule = {
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
-                ${this.renderStatBox('🥂', waterAmount + 'ml', '今日喝水', 'meal')}
-                ${this.renderStatBox('🗒', todoStats.completed + '/' + todoStats.total, '今日待办', 'todo')}
-                ${this.renderExerciseFoodBox(exerciseCalories, foodInfo)}
-                ${this.renderStatBox('🌊', swimCount + '次', '累计游泳', 'fitness')}
+                ${this.renderStatBox('🥂', waterAmount + 'ml', '今日喝水', 'meal', waterAmount > 0, '🦆')}
+                ${this.renderStatBox('🗒', todoStats.completed + '/' + todoStats.total, '今日待办', 'todo', todoStats.completed > 0, '🐰')}
+                ${this.renderExerciseFoodBox(exerciseCalories, foodInfo, '🐱')}
+                ${this.renderStatBox('🌊', swimCount + '次', '累计游泳', 'fitness', swimCount > 0, '🐶')}
             </div>
 
             <div class="card" style="text-align:center;">
@@ -1534,12 +1534,16 @@ const HomeModule = {
     /**
      * 渲染统计小格子
      */
-    renderStatBox(icon, value, label, module) {
+    renderStatBox(icon, value, label, module, filled, sticker) {
+        const borderStyle = filled
+            ? 'border:2px solid var(--border);'
+            : 'border:2px dashed var(--border-light);';
         return `
-            <div class="card" style="text-align:center; cursor:pointer; transition:0.2s;"
+            <div class="card" style="position:relative; text-align:center; cursor:pointer; transition:0.2s; ${borderStyle}"
                  onclick="App.loadModule('${module}')"
                  onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='var(--shadow-md)';"
                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-sm)';">
+                <div style="position:absolute; top:6px; right:8px; font-size:20px; opacity:0.9; transform:rotate(-8deg);">${sticker}</div>
                 <div style="font-size:28px; margin-bottom:4px;">${icon}</div>
                 <div style="font-size:22px; font-weight:700; color:var(--primary);">${value}</div>
                 <div style="font-size:12px; color:var(--text-light); margin-top:2px;">${label}</div>
@@ -1550,14 +1554,18 @@ const HomeModule = {
     /**
      * 渲染运动消耗+食物对照格子（替换原来的"今日热量"格子）
      */
-    renderExerciseFoodBox(calories, foodInfo) {
-        if (calories > 0) {
+    renderExerciseFoodBox(calories, foodInfo, sticker) {
+        const filled = calories > 0;
+        const borderStyle = filled
+            ? 'border:2px solid var(--border); background:#FFF8E1;'
+            : 'border:2px dashed var(--border-light);';
+        if (filled) {
             return `
-                <div class="card" style="text-align:center; cursor:pointer; transition:0.2s;
-                     background:#FFF8E1; border:2px dashed #FFCC80;"
+                <div class="card" style="position:relative; text-align:center; cursor:pointer; transition:0.2s; ${borderStyle}"
                      onclick="App.loadModule('fitness')"
                      onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='var(--shadow-md)';"
                      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-sm)';">
+                    <div style="position:absolute; top:6px; right:8px; font-size:20px; opacity:0.9; transform:rotate(-8deg);">${sticker}</div>
                     <div style="font-size:24px; margin-bottom:4px;">🔥</div>
                     <div style="font-size:18px; font-weight:700; color:#E65100;">${calories} kcal</div>
                     <div style="font-size:11px; color:#BF360C; margin-top:3px; line-height:1.3;">≈ ${foodInfo.emoji}${foodInfo.text}</div>
@@ -1565,10 +1573,11 @@ const HomeModule = {
             `;
         }
         return `
-            <div class="card" style="text-align:center; cursor:pointer; transition:0.2s;"
+            <div class="card" style="position:relative; text-align:center; cursor:pointer; transition:0.2s; ${borderStyle}"
                  onclick="App.loadModule('fitness')"
                  onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='var(--shadow-md)';"
                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--shadow-sm)';">
+                <div style="position:absolute; top:6px; right:8px; font-size:20px; opacity:0.9; transform:rotate(-8deg);">${sticker}</div>
                 <div style="font-size:24px; margin-bottom:4px;">💪</div>
                 <div style="font-size:16px; font-weight:700; color:var(--text-light);">去运动</div>
                 <div style="font-size:11px; color:var(--text-light); margin-top:2px;">打卡查看消耗</div>

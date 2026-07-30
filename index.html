@@ -7,8 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="生活工作台">
-    <title>从不入梦来</title>
-    <link rel="manifest" href="manifest.json">
+    <title>生活工作台</title>
     <style>
 /* ===== 全局重置 ===== */
 * {
@@ -993,10 +992,10 @@ html, body {
 </head>
 <body>
     <!-- 开屏画面（全员粉色爱心合照，1.5s后淡出） -->
-    <div id="splash-screen"></div>
+    <div id="splash-screen" style="position:fixed;inset:0;z-index:99999;background-color:#FFE4EC;background-size:cover;background-position:center bottom;background-repeat:no-repeat;"></div>
     <!-- 背景轮播层（Chiikawa 壁纸） -->
     <div id="bg-layer"></div>
-    <div id="app">
+    <div id="app" style="opacity:0;">
         <!-- 顶部栏（移动端） -->
         <header class="app-header">
             <button class="menu-toggle" id="menuToggle" aria-label="菜单">
@@ -7316,7 +7315,10 @@ const App = {
         // 1.5秒后开始淡出
         setTimeout(() => {
             el.classList.add('fade-out');
-            // 淡出动画结束后隐藏（释放 z-index）
+            const app = document.getElementById('app');
+            // 淡出动画接近结束时，先让主界面显现（避免空白）
+            if (app) app.style.opacity = '1';
+            // 淡出动画结束后隐藏开屏（释放 z-index）
             setTimeout(() => { el.classList.add('hidden'); }, 600);
         }, 1500);
     },

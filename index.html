@@ -1493,8 +1493,6 @@ const HomeModule = {
         // 读取各模块数据
         const waterAmount = this.getTodayWater();
         const todoStats = this.getTodayTodoStats();
-        const calories = this.getTodayCalories();
-        const exerciseMin = this.getTodayExercise();
         const exerciseCalories = this.getTodayExerciseCalories();
         const foodInfo = this.getFoodEquivalent(exerciseCalories);
         const swimCount = this.getTotalSwimCount();
@@ -1513,7 +1511,6 @@ const HomeModule = {
                 ${this.renderStatBox('🥂', waterAmount + 'ml', '今日喝水', 'meal')}
                 ${this.renderStatBox('🗒', todoStats.completed + '/' + todoStats.total, '今日待办', 'todo')}
                 ${this.renderExerciseFoodBox(exerciseCalories, foodInfo)}
-                ${this.renderStatBox('🏊', exerciseMin + 'min', '今日运动', 'fitness')}
                 ${this.renderStatBox('🌊', swimCount + '次', '累计游泳', 'fitness')}
             </div>
 

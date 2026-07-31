@@ -3,7 +3,7 @@
  * 版本号变更会自动清除旧缓存，确保用户拿到最新版
  */
 
-const CACHE_NAME = 'daily-workbench-v11';
+const CACHE_NAME = 'daily-workbench-v12';
 const ASSETS = [
     './',
     './index.html',

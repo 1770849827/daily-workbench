@@ -1,7 +1,7 @@
 /**
- * Service Worker v21 - 强制清除所有缓存，始终拉取最新资源
+ * Service Worker v22 - 强制清除所有缓存，始终拉取最新资源
  */
-const CACHE_NAME = 'daily-workbench-v21';
+const CACHE_NAME = 'daily-workbench-v22';
 
 self.addEventListener('install', e => self.skipWaiting());
 

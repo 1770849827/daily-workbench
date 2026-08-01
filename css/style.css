@@ -1,0 +1,1264 @@
+/* ===== 全局重置 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    /* 主题色 - 粉色 Kawaii 风格 */
+    --primary: #EC407A;
+    --primary-light: #F48FB1;
+    --primary-dark: #D81B60;
+    --primary-bg: #FCE4EC;
+    --secondary: #FF80AB;
+    --success: #81C784;
+    --warning: #FFB74D;
+    --danger: #EF5350;
+    --info: #64B5F6;
+
+    /* ===== 粉色 Kawaii - 模块色系 ===== */
+    /* 首页（玫红主色） */
+    --c-home: #EC407A;
+    --c-home-light: #FCE4EC;
+    /* 每日计划 - 紫粉 */
+    --c-todo: #AB47BC;
+    --c-todo-light: #F3E5F5;
+    /* 英语学习 - 薰衣草紫 */
+    --c-english: #7E57C2;
+    --c-english-light: #EDE7F6;
+    /* 硬笔练字 - 粉红 */
+    --c-calligraphy: #F06292;
+    --c-calligraphy-light: #FCE4EC;
+    /* 游泳健身 - 薄荷绿 */
+    --c-fitness: #26A69A;
+    --c-fitness-light: #E0F2F1;
+    /* 饮食记录 - 珊瑚橙 */
+    --c-meal: #FF8A65;
+    --c-meal-light: #FFF3E0;
+    /* 存钱计划 - 暖黄 */
+    --c-savings: #FFCA28;
+    --c-savings-light: #FFFDE7;
+    /* 每日记账 - 珊瑚红 */
+    --c-accounting: #EF5350;
+    --c-accounting-light: #FFEBEE;
+    /* 我的足迹 - 玫红 */
+    --c-places: #EC407A;
+    --c-places-light: #FCE4EC;
+    /* 周报/月报 - 淡紫 */
+    --c-report: #9575CD;
+    --c-report-light: #EDE7F6;
+
+    /* 中性色 */
+    --bg: #FFF0F5;
+    --card-bg: #FFFFFF;
+    --text: #2D3436;
+    --text-secondary: #636E72;
+    --text-light: #B2BEC3;
+    --border: #F8BBD0;
+    --border-light: #FCE4EC;
+
+    /* 圆角 - 更圆润的 Kawaii 感 */
+    --radius-sm: 12px;
+    --radius: 16px;
+    --radius-lg: 22px;
+    --radius-xl: 26px;
+
+    /* 阴影 - 带粉色调的柔和阴影 */
+    --shadow-sm: 0 2px 8px rgba(236,64,122,0.06);
+    --shadow: 0 4px 16px rgba(236,64,122,0.10);
+    --shadow-md: 0 6px 20px rgba(236,64,122,0.12);
+    --shadow-lg: 0 10px 32px rgba(236,64,122,0.15);
+
+    /* 间距 */
+    --sidebar-width: 220px;
+    --header-height: 56px;
+}
+
+html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: transparent;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+
+/* ===== 背景轮播层（Chiikawa 壁纸，每日轮换） ===== */
+#bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+}
+
+/* ===== 开屏画面（全员粉色爱心合照） ===== */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: #FFE4EC;
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 15vh;
+    transition: opacity 0.6s ease-out;
+}
+#splash-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+#splash-screen.hidden {
+    display: none;
+}
+
+#app {
+    display: flex;
+    height: 100vh;
+}
+
+/* ===== 顶部栏 ===== */
+.app-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background: var(--primary);
+    color: white;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 100;
+    box-shadow: var(--shadow);
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+.app-title {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sync-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+}
+
+.sync-btn:active { opacity: 0.6; }
+
+/* ===== 左侧任务栏 ===== */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--card-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+    z-index: 200;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 18px 16px;
+    border-bottom: 1px solid var(--border-light);
+    background: linear-gradient(135deg, #FFF0F5 0%, #FCE4EC 100%);
+}
+
+.logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.nav-list {
+    list-style: none;
+    padding: 8px 0;
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-left: 3px solid transparent;
+    color: var(--text-secondary);
+    border-radius: 12px;
+    margin: 2px 8px;
+    position: relative;
+    /* 立体浮起效果 */
+    box-shadow: 0 2px 8px rgba(236,64,122,0.08);
+}
+
+.nav-item:hover {
+    background: var(--primary-bg);
+    color: var(--primary);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(236,64,122,0.18), 0 2px 6px rgba(236,64,122,0.10);
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD0);
+    color: var(--primary-dark);
+    font-weight: 600;
+    border-radius: 14px;
+    margin: 2px 8px;
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 0 5px 18px rgba(236,64,122,0.22), 0 2px 8px rgba(236,64,122,0.12);
+    animation: navFloat 3s ease-in-out infinite;
+}
+
+.nav-icon {
+    font-size: 22px;
+    width: 28px;
+    text-align: center;
+    filter: drop-shadow(0 2px 3px rgba(236,64,122,0.15));
+    transition: transform 0.25s ease;
+}
+
+.nav-item:hover .nav-icon {
+    transform: scale(1.15) rotate(-5deg);
+    filter: drop-shadow(0 4px 8px rgba(236,64,122,0.25));
+}
+
+.nav-label {
+    font-size: 14px;
+}
+
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.export-btn, .import-btn {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.export-btn:hover { background: var(--primary-bg); color: var(--primary); }
+.import-btn:hover { background: var(--primary-bg); color: var(--primary); }
+
+/* ===== 主内容区 ===== */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    padding-bottom: 80px;
+}
+
+/* ===== 遮罩层 ===== */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 150;
+}
+
+.overlay.active { display: block; }
+
+/* ===== 页面通用组件 ===== */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.page-subtitle {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+/* 按钮 */
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-primary:active { transform: scale(0.97); }
+
+.btn-secondary {
+    background: var(--border-light);
+    color: var(--text-secondary);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.btn-icon {
+    padding: 8px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+}
+
+/* 卡片 */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-light);
+    transition: 0.2s;
+}
+
+.card:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+}
+
+.card-grid {
+    display: grid;
+    gap: 12px;
+}
+
+/* 表单 */
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--card-bg);
+    color: var(--text);
+    transition: 0.2s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-bg);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-light);
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.empty-state-text {
+    font-size: 14px;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(45, 52, 54, 0.95);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transition: 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { background: var(--success); }
+.toast.error { background: var(--danger); }
+
+/* 模态框 */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-light);
+    padding: 4px 8px;
+}
+
+.modal-close:hover { color: var(--danger); }
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* 列表项 */
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    transition: 0.2s;
+}
+
+.list-item:hover {
+    box-shadow: var(--shadow);
+}
+
+/* 标签 */
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.tag-high { background: #FFE3E3; color: #C92A2A; }
+.tag-medium { background: #FFF3BF; color: #B08900; }
+.tag-low { background: #D3F9D8; color: #2B8A3E; }
+.tag-info { background: var(--primary-bg); color: var(--primary); }
+.tag-warning { background: #FFF3E0; color: #E65100; }
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+
+/* ===== 移动端适配 ===== */
+@media (max-width: 768px) {
+    .app-header {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        padding: 16px;
+        padding-top: calc(var(--header-height) + 16px);
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .modal {
+        max-width: 100%;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .card-grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
+    .card-grid-3 { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+@media (min-width: 769px) {
+    .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* 统计数字卡片 */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* 图片预览 */
+.image-preview {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    margin-top: 8px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.image-grid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+/* 日历 */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.calendar-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 8px 0;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: var(--primary-bg);
+}
+
+.calendar-day.other-month {
+    color: var(--text-light);
+    opacity: 0.4;
+}
+
+.calendar-day.today {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+}
+
+.calendar-day.selected {
+    border-color: var(--primary);
+    background: var(--primary-bg);
+    font-weight: 600;
+}
+
+/* 有打卡的日期：整格圆形背景，比小圆点更醒目 */
+.calendar-day.has-fill {
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+.calendar-day .cal-fill {
+    width: 84%;
+    height: 84%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(236, 64, 122, 0.18);
+}
+
+.calendar-day .cal-num {
+    color: inherit;
+    font-weight: inherit;
+}
+
+/* 今天/选中 的圆形背景加高亮环 */
+.calendar-day.has-fill.today .cal-fill {
+    box-shadow: 0 0 0 3px var(--primary);
+}
+
+.calendar-day.has-fill.selected .cal-fill {
+    box-shadow: 0 0 0 3px var(--primary-dark);
+}
+
+/* ===== 运动日历图例小圆点 ===== */
+.cal-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* ===== 心情贴纸选择器 ===== */
+.mood-option {
+    width: 52px;
+    height: 52px;
+    padding: 4px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mood-option:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-bg);
+    transform: scale(1.08);
+}
+
+.mood-option.selected {
+    border-color: var(--primary);
+    background: var(--primary-bg);
+    box-shadow: 0 2px 8px rgba(236,64,122,0.25);
+    transform: scale(1.1);
+}
+
+.mood-option img {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+/* 图表 */
+.chart-container {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    margin-bottom: 16px;
+}
+
+.chart-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+}
+
+/* 选项卡 */
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    background: var(--card-bg);
+    padding: 4px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: 0.2s;
+}
+
+.tab.active {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+}
+
+/* 操作按钮组 */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    cursor: pointer;
+    background: var(--border-light);
+    color: var(--text-secondary);
+    transition: 0.2s;
+}
+
+.action-btn:hover { background: var(--primary-bg); color: var(--primary); }
+.action-btn.danger:hover { background: #FFE3E3; color: var(--danger); }
+
+/* 浮动按钮 */
+.fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.fab:active { transform: scale(0.9); }
+
+@media (max-width: 768px) {
+    .fab { bottom: 20px; right: 20px; }
+}
+
+/* 进度条 */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+
+/* ===== 手帐清新风格（色系 + 柔和质感） ===== */
+
+/* 柔和米白背景 + 全局留白 */
+html, body {
+    background: transparent;
+}
+
+.main-content {
+    background: transparent;
+}
+
+/* 侧边栏、卡片统一柔和米白底，弱化生硬边框 */
+.sidebar {
+    background: #FFFFFF;
+    box-shadow: 0 0 24px rgba(0,0,0,0.03);
+}
+
+/* 列表项、统计卡、图表容器统一更柔和的圆角与阴影 */
+.list-item,
+.stat-card,
+.chart-container {
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.stat-card:hover,
+.chart-container:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+}
+
+/* ---------- 各模块导航 active 用对应色系（圆角粉色 Kawaii 风格） ---------- */
+.nav-item[data-module="home"].active {
+    background: var(--c-home-light);
+    color: var(--c-home);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="todo"].active {
+    background: var(--c-todo-light);
+    color: var(--c-todo);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="english"].active {
+    background: var(--c-english-light);
+    color: var(--c-english);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="calligraphy"].active {
+    background: var(--c-calligraphy-light);
+    color: var(--c-calligraphy);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="fitness"].active {
+    background: var(--c-fitness-light);
+    color: var(--c-fitness);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="meal"].active {
+    background: var(--c-meal-light);
+    color: var(--c-meal);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="savings"].active {
+    background: var(--c-savings-light);
+    color: var(--c-savings);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="accounting"].active {
+    background: var(--c-accounting-light);
+    color: var(--c-accounting);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="places"].active {
+    background: var(--c-places-light);
+    color: var(--c-places);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+.nav-item[data-module="weekly"].active,
+.nav-item[data-module="monthly"].active {
+    background: var(--c-report-light);
+    color: var(--c-report);
+    border-radius: 12px;
+    margin: 2px 8px;
+}
+
+/* 导航 hover 时也带圆角浅色底（轻量提示） */
+.nav-item[data-module="todo"]:hover { color: var(--c-todo); background: var(--c-todo-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="english"]:hover { color: var(--c-english); background: var(--c-english-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="calligraphy"]:hover { color: var(--c-calligraphy); background: var(--c-calligraphy-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="fitness"]:hover { color: var(--c-fitness); background: var(--c-fitness-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="meal"]:hover { color: var(--c-meal); background: var(--c-meal-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="savings"]:hover { color: var(--c-savings); background: var(--c-savings-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="accounting"]:hover { color: var(--c-accounting); background: var(--c-accounting-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="places"]:hover { color: var(--c-places); background: var(--c-places-light); border-radius: 12px; margin: 2px 8px; }
+.nav-item[data-module="weekly"]:hover,
+.nav-item[data-module="monthly"]:hover { color: var(--c-report); background: var(--c-report-light); border-radius: 12px; margin: 2px 8px; }
+
+/* ---------- 模块强调色工具类（供页面内元素按需使用，无需改 HTML） ---------- */
+/* 用法示例：给某卡片加 class="accent-todo" 即左侧色条 + 标题着色 */
+.accent-todo { border-left: 4px solid var(--c-todo); }
+.accent-english { border-left: 4px solid var(--c-english); }
+.accent-calligraphy { border-left: 4px solid var(--c-calligraphy); }
+.accent-fitness { border-left: 4px solid var(--c-fitness); }
+.accent-meal { border-left: 4px solid var(--c-meal); }
+.accent-savings { border-left: 4px solid var(--c-savings); }
+.accent-accounting { border-left: 4px solid var(--c-accounting); }
+.accent-places { border-left: 4px solid var(--c-places); }
+.accent-report { border-left: 4px solid var(--c-report); }
+
+/* 强调文字着色 */
+.text-todo { color: var(--c-todo); }
+.text-english { color: var(--c-english); }
+.text-calligraphy { color: var(--c-calligraphy); }
+.text-fitness { color: var(--c-fitness); }
+.text-meal { color: var(--c-meal); }
+.text-savings { color: var(--c-savings); }
+.text-accounting { color: var(--c-accounting); }
+.text-places { color: var(--c-places); }
+.text-report { color: var(--c-report); }
+
+/* 强调浅色底 */
+.bg-todo { background: var(--c-todo-light); }
+.bg-english { background: var(--c-english-light); }
+.bg-calligraphy { background: var(--c-calligraphy-light); }
+.bg-fitness { background: var(--c-fitness-light); }
+.bg-meal { background: var(--c-meal-light); }
+.bg-savings { background: var(--c-savings-light); }
+.bg-accounting { background: var(--c-accounting-light); }
+.bg-places { background: var(--c-places-light); }
+.bg-report { background: var(--c-report-light); }
+
+/* ===== 💖 粉色 Kawaii 风格增强样式 ===== */
+
+/* 卡片更圆润 + 粉色调柔和阴影 */
+.card {
+    border-radius: 22px !important;
+    box-shadow: 0 4px 16px rgba(236,64,122,0.08), 0 1px 3px rgba(0,0,0,0.03) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.card:hover {
+    box-shadow: 0 8px 28px rgba(236,64,122,0.14), 0 2px 6px rgba(0,0,0,0.05) !important;
+}
+
+/* 按钮更圆润 + 弹性动画 */
+.btn {
+    border-radius: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.btn:active { transform: scale(0.94); }
+
+.btn-primary {
+    background: linear-gradient(135deg, #EC407A, #F06292) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 3px 12px rgba(236,64,122,0.35) !important;
+}
+
+.btn-primary:hover { background: linear-gradient(135deg, #D81B60, #EC407A) !important; }
+
+.btn-secondary {
+    border-radius: 14px !important;
+    border: 2px solid var(--border-light) !important;
+}
+
+/* 统计卡片圆角 + 半透明 */
+.stat-card {
+    border-radius: 20px !important;
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: blur(8px);
+}
+
+.stat-value {
+    background: linear-gradient(135deg, #EC407A, #FF80AB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 页面标题 - 粉色渐变文字 */
+.page-title {
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #EC407A, #FF80AB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 列表项更柔和 */
+.list-item {
+    border-radius: 16px !important;
+    margin-bottom: 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+.list-item:hover {
+    background: var(--primary-bg) !important;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(236,64,122,0.10) !important;
+}
+
+/* 空状态更可爱 */
+.empty-state-icon { font-size: 48px !important; animation: bounce 2s infinite; }
+.empty-state-text { color: var(--text-light); font-size: 14px; line-height: 1.8; }
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* 标签更圆润 */
+.tag {
+    border-radius: 10px !important;
+    font-size: 11px !important;
+    padding: 3px 10px !important;
+    font-weight: 600 !important;
+}
+
+/* Tab 栏更可爱 + 粉色激活 */
+.tabs {
+    background: rgba(255,255,255,0.8) !important;
+    backdrop-filter: blur(8px);
+}
+
+.tab {
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+.tab.active {
+    background: linear-gradient(135deg, #EC407A, #F06292) !important;
+    color: white !important;
+    box-shadow: 0 3px 10px rgba(236,64,122,0.3) !important;
+}
+
+/* 输入框更圆润 + 粉色聚焦 */
+.form-input, .form-textarea, .form-select {
+    border-radius: 14px !important;
+    border: 2px solid var(--border-light) !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(236,64,122,0.15) !important;
+}
+
+/* 进度条更圆润 + 粉色填充 */
+.progress-bar { border-radius: 12px !important; }
+.progress-fill {
+    border-radius: 12px !important;
+    background: linear-gradient(90deg, #EC407A, #FF80AB) !important;
+}
+
+/* 浮动按钮 - 粉色渐变 */
+.fab {
+    background: linear-gradient(135deg, #EC407A, #F06292) !important;
+    box-shadow: 0 6px 20px rgba(236,64,122,0.4) !important;
+}
+
+/* 侧边栏头像更可爱 */
+.logo {
+    border: 3px solid white !important;
+    box-shadow: 0 4px 15px rgba(236,64,122,0.2) !important;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* 导航项浮动动画（比头像更轻柔） */
+@keyframes navFloat {
+    0%, 100% { transform: translateY(-1px) scale(1.01); box-shadow: 0 5px 18px rgba(236,64,122,0.22), 0 2px 8px rgba(236,64,122,0.12); }
+    50% { transform: translateY(-4px) scale(1.01); box-shadow: 0 8px 25px rgba(236,64,122,0.28), 0 3px 10px rgba(236,64,122,0.15); }
+}
+
+/* Modal 更梦幻 - 粉色调 */
+.modal-overlay { backdrop-filter: blur(10px); }
+.modal {
+    border-radius: 26px !important;
+    box-shadow: 0 20px 60px rgba(236,64,122,0.18) !important;
+    overflow: hidden;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.modal-close:hover { color: var(--primary); }
+
+/* Toast - 粉色系 */
+.toast {
+    background: linear-gradient(135deg, rgba(236,64,122,0.95), rgba(240,98,146,0.95)) !important;
+}
+.toast.success { background: linear-gradient(135deg, #81C784, #A5D6A7) !important; }
+.toast.error { background: linear-gradient(135deg, #EF5350, #E57373) !important; }
+
+/* 日历今天 - 粉色高亮 */
+.calendar-day.today {
+    background: linear-gradient(135deg, #EC407A, #F06292) !important;
+    color: white !important;
+}
+
+.calendar-day.selected {
+    border-color: var(--primary) !important;
+    background: var(--primary-bg) !important;
+    font-weight: 600;
+}
+
+/* 顶部栏（移动端）- 粉色渐变 */
+.app-header {
+    background: linear-gradient(135deg, #EC407A, #F06292) !important;
+}
+
+/* 侧边栏整体柔和 */
+.sidebar {
+    background: rgba(255,255,255,0.95) !important;
+    box-shadow: 4px 0 24px rgba(236,64,122,0.08) !important;
+    border-right: 1px solid var(--border-light) !important;
+}
+
+/* 图表容器更圆润 */
+.chart-container {
+    border-radius: 20px !important;
+}

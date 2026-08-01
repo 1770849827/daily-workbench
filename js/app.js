@@ -9,12 +9,15 @@ const App = {
 
     /**
      * 渲染暹罗厘普贴纸图片（所有模块共用）
-     * @param {string} name - 贴纸名称: 'dog'|'cat'|'carrot'|'rabbit'|'duck'
-     * @returns {string} HTML <img> 标签，若贴纸数据未加载则返回空字符串
+     * 贴纸改为独立文件按需加载，不再使用base64内联
+     * @param {string} name - 贴纸名称: 'home_duck'|'g3_dog_cool2'|'fit_cat_angry' 等
+     * @returns {string} HTML <img> 标签，指向独立PNG文件
      */
     renderSticker(name) {
-        if (!window.STICKER_IMAGES || !window.STICKER_IMAGES[name]) return '';
-        return `<img src="${window.STICKER_IMAGES[name]}" style="width:32px;height:32px;object-fit:contain;" alt="${name}" loading="lazy">`;
+        if (!name) return '';
+        // 贴纸文件存放在 assets/stickers/ 目录下
+        const path = `assets/stickers/${name}.png`;
+        return `<img src="${path}" style="width:32px;height:32px;object-fit:contain;" alt="${name}" loading="lazy" onerror="this.style.display='none'">`;
     },
 
     /**

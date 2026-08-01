@@ -7594,7 +7594,7 @@ const App = {
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
             item.addEventListener('click', () => {
-                const module = item.dataset.module;
+                const module = item.dataset.page;
                 this.loadModule(module);
 
                 // 移动端关闭侧边栏
@@ -7613,7 +7613,7 @@ const App = {
 
         // 更新导航高亮
         document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.toggle('active', item.dataset.module === moduleName);
+            item.classList.toggle('active', item.dataset.page === moduleName);
         });
 
         // 更新标题

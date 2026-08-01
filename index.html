@@ -167,6 +167,14 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    border-radius: 8px;
+    touch-action: manipulation;
+    animation: menuPulse 2s ease-in-out infinite;
+}
+
+@keyframes menuPulse {
+    0%, 100% { background: rgba(255,255,255,0); }
+    50% { background: rgba(255,255,255,0.20); }
 }
 
 .menu-toggle span {
@@ -225,11 +233,29 @@ html, body {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    object-fit: cover;
     border: 3px solid white;
     box-shadow: 0 2px 10px rgba(0,0,0,0.12);
     margin-bottom: 8px;
     font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+}
+
+.logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.logo-fallback {
+    line-height: 1;
+    user-select: none;
 }
 
 .sidebar-title {
@@ -258,7 +284,20 @@ html, body {
     position: relative;
     /* 立体浮起效果 */
     box-shadow: 0 2px 8px rgba(236,64,122,0.08);
+    transform-style: preserve-3d;
+    /* 所有导航项轻柔的立体浮动 */
+    animation: navFloatIdle 5s ease-in-out infinite;
 }
+
+/* 错相位延迟，让各导航项浮动更有层次感 */
+.nav-item:nth-child(2) { animation-delay: 0.35s; }
+.nav-item:nth-child(3) { animation-delay: 0.7s; }
+.nav-item:nth-child(4) { animation-delay: 1.05s; }
+.nav-item:nth-child(5) { animation-delay: 1.4s; }
+.nav-item:nth-child(6) { animation-delay: 1.75s; }
+.nav-item:nth-child(7) { animation-delay: 2.1s; }
+.nav-item:nth-child(8) { animation-delay: 2.45s; }
+.nav-item:nth-child(9) { animation-delay: 2.8s; }
 
 .nav-item:hover {
     background: var(--primary-bg);
@@ -273,8 +312,8 @@ html, body {
     font-weight: 600;
     border-radius: 14px;
     margin: 2px 8px;
-    transform: translateY(-1px) scale(1.01);
-    box-shadow: 0 5px 18px rgba(236,64,122,0.22), 0 2px 8px rgba(236,64,122,0.12);
+    transform: perspective(600px) translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 26px rgba(236,64,122,0.32), 0 4px 12px rgba(236,64,122,0.18);
     animation: navFloat 3s ease-in-out infinite;
 }
 
@@ -1218,14 +1257,20 @@ html, body {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+    0%, 100% { transform: perspective(600px) translateY(0) rotateY(-5deg); }
+    50% { transform: perspective(600px) translateY(-6px) rotateY(5deg); }
 }
 
 /* 导航项浮动动画（比头像更轻柔） */
 @keyframes navFloat {
-    0%, 100% { transform: translateY(-1px) scale(1.01); box-shadow: 0 5px 18px rgba(236,64,122,0.22), 0 2px 8px rgba(236,64,122,0.12); }
-    50% { transform: translateY(-4px) scale(1.01); box-shadow: 0 8px 25px rgba(236,64,122,0.28), 0 3px 10px rgba(236,64,122,0.15); }
+    0%, 100% { transform: perspective(600px) translateY(-2px) scale(1.03) rotateY(-7deg) rotateX(3deg); box-shadow: 0 10px 26px rgba(236,64,122,0.32), 0 4px 12px rgba(236,64,122,0.18); }
+    50% { transform: perspective(600px) translateY(-8px) scale(1.06) rotateY(7deg) rotateX(-3deg); box-shadow: 0 16px 36px rgba(236,64,122,0.42), 0 6px 16px rgba(236,64,122,0.22); }
+}
+
+/* 所有导航项的轻微立体浮动（错相位，更有层次） */
+@keyframes navFloatIdle {
+    0%, 100% { transform: perspective(700px) translateY(0) rotateX(1.5deg); }
+    50% { transform: perspective(700px) translateY(-2px) rotateX(-1.5deg); }
 }
 
 /* Modal 更梦幻 - 粉色调 */
@@ -1300,7 +1345,10 @@ html, body {
         <!-- 左侧导航栏 -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="logo">🌸</div>
+                <div class="logo">
+                    <img id="coverLogo" class="logo-img" alt="头像" src="" style="display:none">
+                    <span class="logo-fallback">🌸</span>
+                </div>
                 <div class="sidebar-title">生活工作台</div>
             </div>
             <ul class="nav-list" id="navList">
@@ -7747,9 +7795,17 @@ const App = {
      */
     setCoverImage() {
         const img = document.getElementById('coverLogo');
+        const fallback = document.querySelector('.logo-fallback');
         if (img && window.COVER_IMAGE) {
+            img.onload = function() {
+                this.style.display = 'block';
+                if (fallback) fallback.style.display = 'none';
+            };
+            img.onerror = function() {
+                this.style.display = 'none';
+                if (fallback) fallback.style.display = 'block';
+            };
             img.src = window.COVER_IMAGE;
-            img.onerror = function() { this.style.display = 'none'; };
         }
     },
 

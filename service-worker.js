@@ -1,32 +1,16 @@
 /**
- * Service Worker - 离线缓存 (v17 - 强制刷新版)
- * 版本号变更会自动清除旧缓存，确保用户拿到最新版
+ * Service Worker v18 - 单文件部署
+ * 只缓存 index.html（自包含）和贴纸文件
  */
+const CACHE_NAME = 'daily-workbench-v18';
 
-const CACHE_NAME = 'daily-workbench-v17';
+self.addEventListener('install', e => self.skipWaiting());
 
-// 安装 - 跳过等待直接激活
-self.addEventListener('install', (event) => {
-    self.skipWaiting();
+self.addEventListener('activate', e => {
+    e.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 
-// 激活 - 清理所有旧缓存（强制刷新）
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(name => caches.delete(name))
-            );
-        }).then(() => self.clients.claim())
-    );
-});
-
-// 拦截请求 - 网络优先，不缓存（让浏览器自己管理缓存）
-self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
-
-    event.respondWith(
-        fetch(event.request)
-            .catch(() => caches.match(event.request))
-    );
+self.addEventListener('fetch', e => {
+    if (e.request.method !== 'GET') return;
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
 });
